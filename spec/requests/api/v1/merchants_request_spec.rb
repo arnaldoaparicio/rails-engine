@@ -34,7 +34,7 @@ describe 'Merchant API' do
     expect(merchant).to have_key(:id)
     expect(merchant[:id]).to eq(id)
 
-    expect(mercant).to have_key(:name)
+    expect(merchant).to have_key(:name)
     expect(merchant[:name]).to be_a(String)
 
   end
