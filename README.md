@@ -1,24 +1,22 @@
-# README
+Rails-Engine
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
 
-Things you may want to cover:
+Rails-Engine is a solo Rails-API project for the purposes of handling
 
-* Ruby version
+Learning goals 
 
-* System dependencies
+-Expose an API
+-Use serializers to format JSON responses
+-Test API exposure
+-Use SQL and ActiveRecord to gather data
 
-* Configuration
+This project has been created using Ruby version 2.7.2 and Rails version 5.2.6
 
-* Database creation
+Gems Utilized
 
-* Database initialization
+RSpec
+Pry
+jsonapi-serializer
+factorybot rails
+faker
 
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
