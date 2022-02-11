@@ -57,5 +57,72 @@ describe 'Merchant API' do
     expect(last_item.merchant).to eq(merchant)
   end
 
+
+  
+
+
+
+
+
+
+
+
+    it 'lists all merchants based on search' do
+   
+    merchant1 = create(:merchant, name: 'Bag of Dimes')
+    merchant2 = create(:merchant, name: 'Shovel')
+    merchant3 = create(:merchant, name: 'Keycaps')
+    merchant4 = create(:merchant, name: 'Shovel Polisher')
+    merchant5 = create(:merchant, name: 'dime sharpener')
+
+    get '/api/v1/merchants/find_all?name=dime'
+
+    result = JSON.parse(response.body, symbolize_names: true)
+    expect(response.status).to eq(200)
+    expect(result[:data].count).to eq(2)
+    expect(result[:data])
+  end
+
+  it 'has missing parameters' do
+    merchant1 = create(:merchant, name: 'Bag of Dimes')
+    merchant2 = create(:merchant, name: 'Shovel')
+    merchant3 = create(:merchant, name: 'Keycaps')
+    merchant4 = create(:merchant, name: 'Shovel Polisher')
+    merchant5 = create(:merchant, name: 'dime sharpener')
+
+    get '/api/v1/merchants/find_all'
+
+    result = JSON.parse(response.body, symbolize_names: true)
+    expect(response.status).to eq(400)
+    expect(result[:data]).to have_key(:message)
+  end
+
+  it 'has empty parameters' do
+    merchant1 = create(:merchant, name: 'Bag of Dimes')
+    merchant2 = create(:merchant, name: 'Shovel')
+    merchant3 = create(:merchant, name: 'Keycaps')
+    merchant4 = create(:merchant, name: 'Shovel Polisher')
+    merchant5 = create(:merchant, name: 'dime sharpener')
+
+    get '/api/v1/merchants/find_all?name='
+
+    result = JSON.parse(response.body, symbolize_names: true)
+    expect(response.status).to eq(400)
+    expect(result[:data]).to have_key(:message)
+  end
+
+  it 'yields 0 results' do
+    merchant1 = create(:merchant, name: 'Bag of Dimes')
+    merchant2 = create(:merchant, name: 'Shovel')
+    merchant3 = create(:merchant, name: 'Keycaps')
+    merchant4 = create(:merchant, name: 'Shovel Polisher')
+    merchant5 = create(:merchant, name: 'dime sharpener')
+
+    get '/api/v1/merchants/find_all?name=Mart'
+
+    result = JSON.parse(response.body, symbolize_names: true)
+    expect(response.status).to eq(400)
+    expect(result[:data]).to eq([])
+  end
   
 end
