@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe 'Merchant API' do
-  xit 'sends a list of merchants' do
+  it 'sends a list of merchants' do
     create_list(:merchant, 3)
 
     get '/api/v1/merchants'
@@ -20,7 +20,7 @@ describe 'Merchant API' do
     end
   end
 
-  xit 'can get one merchant by its id' do
+  it 'can get one merchant by its id' do
     id = create(:merchant).id
 
     get "/api/v1/merchants/#{id}"
@@ -36,7 +36,7 @@ describe 'Merchant API' do
     expect(merchant[:data][:attributes][:name]).to be_a(String)
   end
 
-  xit 'can get all of the merchants items' do
+  it 'can get all of the merchants items' do
     merchant = create(:merchant)
     create_list(:item, 3, merchant: merchant)
 
@@ -46,7 +46,7 @@ describe 'Merchant API' do
     expect(merchant.items.count).to eq(3)
   end
 
-  xit 'can get an items merchant' do
+  it 'can get an items merchant' do
     merchant = create(:merchant)
     item = create_list(:item, 2, merchant: merchant)
     last_item = Item.all.last
