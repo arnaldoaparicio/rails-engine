@@ -132,4 +132,63 @@ describe 'Item Search API' do
     expect(response.status).to eq(400)
     expect(result[:data]).to have_key(:message)
   end
+
+  it 'finds the minimum price of 50' do 
+    merchant = create(:merchant)
+    merchant2 = create(:merchant)
+    item1 = create(:item, name: 'Bag of Dimes', unit_price: 53, merchant: merchant)
+    item2 = create(:item, name: 'Shovel', unit_price: 23, merchant: merchant)
+    item3 = create(:item, name: 'Keycaps', unit_price: 7, merchant: merchant)
+    item4 = create(:item, name: 'Shovel Polisher', unit_price: 100, merchant: merchant)
+    item5 = create(:item, name: 'dime sharpener', unit_price: 999, merchant: merchant2)
+
+    get '/api/v1/items/find?min_price=50'
+
+    result = JSON.parse(response.body, symbolize_names: true)
+    # binding.pry
+    expect(response).to be_successful
+    expect(result[:data].size).to eq(3)
+    expect(result[:data][0][:attributes][:name]).to eq('Bag of Dimes')
+    expect(result[:data][1][:attributes][:name]).to eq('Shovel Polisher')
+    expect(result[:data][2][:attributes][:name]).to eq('dime sharpener')
+  end
+
+  it 'finds the minimum price of 50' do 
+    merchant = create(:merchant)
+    merchant2 = create(:merchant)
+    item1 = create(:item, name: 'Bag of Dimes', unit_price: 53, merchant: merchant)
+    item2 = create(:item, name: 'Shovel', unit_price: 23, merchant: merchant)
+    item3 = create(:item, name: 'Keycaps', unit_price: 7, merchant: merchant)
+    item4 = create(:item, name: 'Shovel Polisher', unit_price: 100, merchant: merchant)
+    item5 = create(:item, name: 'dime sharpener', unit_price: 999, merchant: merchant2)
+
+    get '/api/v1/items/find?max_price=23'
+
+    result = JSON.parse(response.body, symbolize_names: true)
+    # binding.pry
+    expect(response).to be_successful
+    expect(result[:data].size).to eq(2)
+    expect(result[:data][0][:attributes][:name]).to eq('Shovel')
+    expect(result[:data][1][:attributes][:name]).to eq('Keycaps')
+  end
+
+  it 'finds the minimum and maximum price' do 
+    merchant = create(:merchant)
+    merchant2 = create(:merchant)
+    item1 = create(:item, name: 'Bag of Dimes', unit_price: 53, merchant: merchant)
+    item2 = create(:item, name: 'Shovel', unit_price: 23, merchant: merchant)
+    item3 = create(:item, name: 'Keycaps', unit_price: 7, merchant: merchant)
+    item4 = create(:item, name: 'Shovel Polisher', unit_price: 100, merchant: merchant)
+    item5 = create(:item, name: 'dime sharpener', unit_price: 999, merchant: merchant2)
+
+    get '/api/v1/items/find?max_price=100&min_price=50'
+
+    result = JSON.parse(response.body, symbolize_names: true)
+   binding.pry
+    expect(response).to be_successful
+    expect(result[:data].size).to eq(2)
+    expect(result[:data][0][:attributes][:name]).to eq('Shovel')
+    expect(result[:data][1][:attributes][:name]).to eq('Keycaps')
+  end
+
 end
