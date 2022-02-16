@@ -124,5 +124,5 @@ describe 'Merchant API' do
     expect(response.status).to eq(400)
     expect(result[:data]).to eq([])
   end
-  
+
 end
