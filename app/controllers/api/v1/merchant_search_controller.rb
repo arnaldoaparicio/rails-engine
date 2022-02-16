@@ -1,12 +1,18 @@
 class Api::V1::MerchantSearchController < ApplicationController
   def index
     results = Merchant.all_merchants_search(params[:name])
-    if params[:name].nil?
+    if params.nil?
       render json: { data: { message: 'Search parameters cannot be missing' } }, status: 400
     elsif results.empty?
       render json: MerchantSerializer.new(results), status: 400
-    elsif params[:name] == ''
+    elsif params[:name] == '' && params.has_key?(:name)
       render json: { data: { message: 'Search cannot be empty' } }, status: 400
+    elsif params.has_key?(:quantity)
+      quantity = Merchant.most_items_sold_by_count(params[:quantity])
+      # binding.pry
+      render json: MerchantSerializer.new(quantity)
+    elsif !params.has_key?(:quantity) || !params.has_key?(:name)
+      render json: { error: { message: 'Not found' } }, status: 400
     else
       json_response(MerchantSerializer.new(results))
     end
